@@ -5,7 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "../CheckoutForm/";
 import styles from "./styles.module.css";
 
-const stripePromise = loadStripe("pk_test_8Xey4KhMPxtCQaS48rCv72mw0030vI6VIH");
+const stripePromise = loadStripe("");
 
 export default class checkoutPage extends React.Component {
   constructor(props) {
