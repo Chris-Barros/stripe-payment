@@ -1,0 +1,10 @@
+.ButtonContainer {
+  display: flex;
+  width: fit-content;
+  margin: auto;
+  align-items: center;
+}
+.img {
+  width: 250px;
+  background-color: transparent;
+}

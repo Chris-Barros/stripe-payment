@@ -1,0 +1,19 @@
+.formContainer {
+  width: auto;
+  margin: 30px;
+}
+.billingContainer {
+  width: 500px;
+  background: rgba(78, 151, 219, 0.5);
+  /* padding: 0px 0px 0px 20px; */
+  padding-left: 20px;
+  margin: 20px;
+}
+.itemContainer {
+  margin: auto;
+  width: 500px;
+  background: rgba(78, 151, 219, 0.5);
+}
+.cardContainer {
+  background: rgba(78, 151, 219, 0.5);
+}
