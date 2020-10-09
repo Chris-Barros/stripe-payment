@@ -54,13 +54,16 @@ const Successful = (props) => {
         </div>
 
         <div className={styles.animationContainer}>
-          {Array.from(Array(length)).map((x, index) => (
-            <div key={x} className={`${styles.candleContainer} `}>
-              {Array.from(Array(length)).map((y, i) => (
+          {Array.from(Array(length)).map((index, x) => (
+            <div
+              key={String(index) + String(x)}
+              className={`${styles.candleContainer} `}
+            >
+              {Array.from(Array(length)).map((i, y) => (
                 <div
-                  key={index + i}
+                  key={+String(index) + String(x) + String(i) + String(y)}
                   className={`${styles.white} ${styles.animate} animate`}
-                ></div>
+                />
               ))}
             </div>
           ))}
