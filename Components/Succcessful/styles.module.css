@@ -1,0 +1,64 @@
+.container {
+  position: relative;
+  color: black;
+  padding-top: 200px;
+}
+.confetti {
+  position: absolute;
+  z-index: 200;
+  top: 0;
+  left: 0;
+}
+.centerContent {
+  margin: auto;
+  width: 600px;
+}
+.animationContainer {
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  top: -220px;
+  z-index: 3;
+}
+.candleContainer {
+  display: flex;
+  width: auto;
+}
+.animate {
+  width: 20px;
+  height: 20px;
+  background-color: rgba(78, 151, 219, 0.55);
+}
+.textContainer {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  z-index: 50;
+  text-align: center;
+  margin: auto;
+}
+.fishimg {
+  width: 200px;
+  position: absolute;
+  z-index: 500;
+  bottom: 30px;
+  background-color: transparent;
+}
+.text {
+  margin: auto;
+  width: fit-content;
+}
+
+.red {
+  background-color: white;
+}
+.white {
+  background-color: rgba(78, 151, 219, 0.55);
+}
+
+.blue {
+  background-color: white;
+}
+.green {
+  background-color: white;
+}

@@ -23,14 +23,17 @@ export default class Item extends React.Component {
     }
   };
   render() {
-    const { name, count } = this.props.itemData;
+    const { name, count, cost } = this.props.itemData;
 
     return (
       <div>
         {name ? <div>{name}</div> : null}
         {/*this.props.src ? <img src="./img/doughnut.jpeg" alt="" /> : null*/}
         {this.props.src ? (
-          <img className={styles.img} src="./svg/mysteryBox.svg" alt="m"></img>
+          <div>
+            <img className={styles.img} src="./svg/mysteryBox.svg" alt="m" />
+            <div>{`${cost}$`}</div>
+          </div>
         ) : null}
         <div className={styles.ButtonContainer}>
           <Button value="-" onClick={() => this.addOrRemove("remove")} />

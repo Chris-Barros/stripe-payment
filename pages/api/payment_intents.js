@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import Stripe from "stripe";
 
-const stripe = new Stripe("");
+const stripe = new Stripe("sk_test_vQVx2pCC3LDhEB4ryq3W1zrl00MUSijUA0");
 
 const items = {
   123: { cost: 2.33, name: "doughnut" },

@@ -1,17 +1,14 @@
-import { Provider } from "react-redux";
+// import { Provider } from "react-redux";
+import { Route, BrowserRouter, Switch } from "react-router-dom";
 
-import store from "../redux/store";
+import Router from "next/router";
+
+// import store from "../redux/store";
 
 import CheckoutPage from "../Components/CheckoutPage";
 
-import styles from "../styles/Home.module.css";
-
-export default function Home() {
+export default function Home(e) {
   return (
-    <Provider store={store}>
-      <div className={styles.container}>
-        <CheckoutPage />
-      </div>
-    </Provider>
+    <CheckoutPage onSuccessfulCheckout={() => Router.push("/Successful")} />
   );
 }
