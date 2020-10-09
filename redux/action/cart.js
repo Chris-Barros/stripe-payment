@@ -17,9 +17,10 @@ export const getCart = (item) => {
     payload: { Item: item },
   };
 };
-export const loading = () => {
+export const loading = (item) => {
   return {
     type: "LOADING",
+    payload: { Item: item },
   };
 };
 const CartActions = {
