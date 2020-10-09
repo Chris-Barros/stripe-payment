@@ -50,6 +50,7 @@ const CheckoutForm = (props) => {
   const elements = useElements();
 
   const handlePaymentIntent = async (ev) => {
+    props.onSuccessfulCheckout();
     props.validate();
     if (!props.errors) {
       store.dispatch(loading());
@@ -96,6 +97,7 @@ const CheckoutForm = (props) => {
             if (result.paymentIntent.status === "succeeded") {
               store.dispatch(loading());
               console.log("payment was successfull");
+              props.onSuccessfulCheckout();
               // Show your customer that the payment has succeeded
             } else if (
               result.paymentIntent.status === "requires_payment_method"

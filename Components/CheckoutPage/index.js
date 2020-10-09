@@ -5,7 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "../CheckoutForm/";
 import styles from "./styles.module.css";
 
-const stripePromise = loadStripe("");
+const stripePromise = loadStripe("pk_test_8Xey4KhMPxtCQaS48rCv72mw0030vI6VIH");
 
 export default class checkoutPage extends React.Component {
   constructor(props) {
@@ -115,6 +115,7 @@ export default class checkoutPage extends React.Component {
             handleChange={this.handleChange}
             errors={errors}
             validate={this.validateInput}
+            onSuccessfulCheckout={this.props.onSuccessfulCheckout}
           />
         </Elements>
       </div>
