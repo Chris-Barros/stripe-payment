@@ -49,23 +49,31 @@ const CheckoutForm = (props) => {
   const stripe = useStripe();
   const elements = useElements();
 
+  const validateInput = () => {
+    // const values = { title: "test", message: "this is a test" };
+    // props.openModal(values);
+    store.dispatch(loading(true));
+    props.validate((status) => {
+      if (!status) {
+        console.log("initiating payment intent", status);
+        handlePaymentIntent();
+      } else console.log("cant initiating payment intent", status);
+    });
+    store.dispatch(loading(false));
+  };
   const handlePaymentIntent = async (ev) => {
-    props.onSuccessfulCheckout();
-    props.validate();
-    if (!props.errors) {
-      store.dispatch(loading());
-      ev.preventDefault();
-      const billingDetails = {
-        name: props.BillingInfo.Name,
-        email: props.BillingInfo.Email,
-        phone: props.BillingInfo.Phone,
-        address: {
-          city: props.BillingInfo.City,
-          line1: props.BillingInfo.Address,
-          state: props.BillingInfo.State,
-          postal_code: props.BillingInfo.Zip,
-        },
-      };
+    const billingDetails = {
+      name: props.BillingInfo.Name,
+      email: props.BillingInfo.Email,
+      phone: props.BillingInfo.Phone,
+      address: {
+        city: props.BillingInfo.City,
+        line1: props.BillingInfo.Address,
+        state: props.BillingInfo.State,
+        postal_code: props.BillingInfo.Zip,
+      },
+    };
+    try {
       const { data: clientSecret } = await axios.post(
         "/api/payment_intents",
         props.items
@@ -90,24 +98,33 @@ const CheckoutForm = (props) => {
         .retrievePaymentIntent(String(clientSecret))
         .then(function (result) {
           if (result.error) {
-            store.dispatch(loading());
+            store.dispatch(loading(false));
             console.log("payment intent secret was invalid");
             // PaymentIntent client secret was invalid
           } else {
             if (result.paymentIntent.status === "succeeded") {
-              store.dispatch(loading());
+              store.dispatch(loading(false));
               console.log("payment was successfull");
               props.onSuccessfulCheckout();
               // Show your customer that the payment has succeeded
             } else if (
               result.paymentIntent.status === "requires_payment_method"
             ) {
-              store.dispatch(loading());
+              store.dispatch(loading(false));
               console.log("payment method failed...");
               // Authentication failed, prompt the customer to enter another payment method
             }
           }
         });
+    } catch (err) {
+      console.log("error in confirmCardPayment  catch block", err);
+      const values = {
+        title: "An error has occued!",
+        message:
+          "Make sure your payment information is accurate, and then try again",
+      };
+      props.openModal(values);
+      store.dispatch(loading(false));
     }
   };
 
@@ -115,7 +132,15 @@ const CheckoutForm = (props) => {
   return (
     <div className={styles.formContainer}>
       <div className={styles.itemContainer}>
-        <Item itemData={props.itemData} src="../../img/doughnut.jpeg" />
+        {props.items
+          ? Object.keys(props.items).map((id) => (
+              <Item
+                key={id}
+                itemData={props.items[id]}
+                src="../../img/doughnut.jpeg"
+              />
+            ))
+          : null}
       </div>
       <div className={styles.billingContainer}>
         {Object.keys(props.BillingFields).map((id) => (
@@ -140,7 +165,8 @@ const CheckoutForm = (props) => {
       <div>
         <Button
           value={`pay $ ${props.cost ? props.cost : 0}`}
-          onClick={handlePaymentIntent}
+          // onClick={handlePaymentIntent}
+          onClick={validateInput}
         />
       </div>
       {props.loading ? <Loading /> : null}

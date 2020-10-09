@@ -2,7 +2,11 @@ import React from "react";
 
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { getCart } from "../../redux/action/cart";
+import store from "../../redux/store";
 import CheckoutForm from "../CheckoutForm/";
+import Modal from "../Modal/";
+
 import styles from "./styles.module.css";
 
 const stripePromise = loadStripe("pk_test_8Xey4KhMPxtCQaS48rCv72mw0030vI6VIH");
@@ -11,6 +15,7 @@ export default class checkoutPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      modal: { isOpen: false, title: "", message: "" },
       errors: {},
       BillingInfo: {
         Name: "",
@@ -24,9 +29,8 @@ export default class checkoutPage extends React.Component {
       itemData: {
         id: 123,
         name: "Mystery Box!!",
-        count: 0,
+        count: 1,
         cost: 2.33,
-        // src: doughnut,
       },
 
       BillingFields: {
@@ -82,8 +86,12 @@ export default class checkoutPage extends React.Component {
       },
     };
   }
-  validateInput = () => {
+  componentDidMount() {
+    store.dispatch(getCart());
+  }
+  validateInput = (callback) => {
     let Errors = {};
+
     console.log("validating");
     const { BillingInfo, errors } = this.state;
     Object.keys(BillingInfo).map((name) => {
@@ -91,11 +99,21 @@ export default class checkoutPage extends React.Component {
         Errors[name] = `${name} is required`;
       }
     });
-    this.setState({ errors: Errors }, () =>
-      console.log("errors", this.state.errors)
+    this.setState({ errors: Errors }, () => {
+      if (Object.keys(this.state.errors).length !== 0) {
+        callback(true);
+      } else callback(false);
+    });
+  };
+  handleOpenModal = (values) => {
+    this.setState(
+      { modal: { title: values.title, message: values.message } },
+      () => this.setState({ modal: { ...this.state.modal, isOpen: true } })
     );
   };
-
+  handleCloseModal = () => {
+    this.setState({ modal: { isOpen: false } });
+  };
   handleChange = (e) => {
     const { BillingInfo } = this.state;
     this.setState({
@@ -104,7 +122,7 @@ export default class checkoutPage extends React.Component {
   };
 
   render() {
-    const { BillingInfo, BillingFields, itemData, errors } = this.state;
+    const { modal, BillingInfo, BillingFields, itemData, errors } = this.state;
     return (
       <div className={styles.pageContainer}>
         <Elements stripe={stripePromise}>
@@ -113,11 +131,19 @@ export default class checkoutPage extends React.Component {
             BillingFields={BillingFields}
             itemData={itemData}
             handleChange={this.handleChange}
-            errors={errors}
+            errors={Object.keys(errors).length !== 0 ? errors : false}
             validate={this.validateInput}
             onSuccessfulCheckout={this.props.onSuccessfulCheckout}
+            openModal={this.handleOpenModal}
           />
         </Elements>
+        {modal.isOpen ? (
+          <Modal
+            title={modal.title}
+            message={modal.message}
+            closeModal={this.handleCloseModal}
+          />
+        ) : null}
       </div>
     );
   }
