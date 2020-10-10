@@ -16,9 +16,8 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 
 ## Change secreet and public key from stripe
 
-    you will need to create a stripe account if you havent. using the public and seecret key go to
-    1) `pages/api/payment_intents.js` and replace your secret key on the top of the page
-    2)`coomponents/CheckoutForm/index.js` and replace it with your public key at the top of   page
+    you will need to create a stripe account if you havent. using the public and secret key go to
+    access the `.env` file and change your keys accordingly stripe secret and stripes public.
 
 ## if you wanna add more items to be displayed
 

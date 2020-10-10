@@ -1,13 +1,14 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import Stripe from "stripe";
 
-const stripe = new Stripe("");
+const stripe = new Stripe(process.env.SECRET_KEY);
 
 const items = {
   123: { cost: 2.33, name: "doughnut" },
 };
 let totalCost;
 export default async (req, res) => {
+  console.log("sk", process.env.SECRET_KEY);
   totalCost = 0;
   Object.keys(req.body).map((id) => {
     if (items[id]) {

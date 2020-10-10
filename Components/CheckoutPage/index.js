@@ -9,7 +9,7 @@ import Modal from "../Modal/";
 
 import styles from "./styles.module.css";
 
-const stripePromise = loadStripe("");
+const stripePromise = loadStripe(process.env.PUBLISHABLE_KEY);
 
 export default class checkoutPage extends React.Component {
   constructor(props) {
@@ -87,6 +87,7 @@ export default class checkoutPage extends React.Component {
     };
   }
   componentDidMount() {
+    console.log("public key", process.env.PUBLISHABLE_KEY);
     store.dispatch(getCart());
   }
   validateInput = (callback) => {
