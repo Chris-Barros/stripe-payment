@@ -13,7 +13,13 @@
   margin: auto;
   width: 500px;
   background: rgba(78, 151, 219, 0.5);
+  display: flex;
 }
 .cardContainer {
   background: rgba(78, 151, 219, 0.5);
+}
+.submitBtn {
+  width: 200px;
+  height: 60px;
+  background-color: whitesmoke;
 }

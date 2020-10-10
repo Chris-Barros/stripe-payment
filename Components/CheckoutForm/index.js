@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { loading } from "../../redux/action/cart.js";
 
@@ -16,6 +16,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import anime from "animejs/lib/anime.es/";
 
 import Button from "../Button";
 import store from "../../redux/store";
@@ -31,6 +32,7 @@ const CardElementContainer = styled.div`
     padding: 15px;
   }
 `;
+
 const cardElementOptions = {
   style: {
     base: {
@@ -46,20 +48,36 @@ const cardElementOptions = {
 };
 
 const CheckoutForm = (props) => {
+  const btnAnimation = React.useRef(null);
+  const [isProcessing, setProcessingTo] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
 
+  React.useEffect(() => {
+    btnAnimation.current = anime({
+      targets: ".animateSubmutBtn",
+      duration: 1000,
+      translateX: 950,
+
+      easing: "easeInOutSine",
+      loop: false,
+    });
+  }, []);
+
   const validateInput = () => {
-    // const values = { title: "test", message: "this is a test" };
-    // props.openModal(values);
+    setProcessingTo(true);
+
     store.dispatch(loading(true));
     props.validate((status) => {
       if (!status) {
         console.log("initiating payment intent", status);
         handlePaymentIntent();
-      } else console.log("cant initiating payment intent", status);
+      } else {
+        setProcessingTo(false);
+        store.dispatch(loading(false));
+        console.log("cant initiating payment intent", status);
+      }
     });
-    store.dispatch(loading(false));
   };
   const handlePaymentIntent = async (ev) => {
     const billingDetails = {
@@ -125,6 +143,7 @@ const CheckoutForm = (props) => {
       };
       props.openModal(values);
       store.dispatch(loading(false));
+      setProcessingTo(true);
     }
   };
 
@@ -132,11 +151,11 @@ const CheckoutForm = (props) => {
   return (
     <div className={styles.formContainer}>
       <div className={styles.itemContainer}>
-        {props.items
-          ? Object.keys(props.items).map((id) => (
+        {props.allItems
+          ? Object.keys(props.allItems).map((id) => (
               <Item
                 key={id}
-                itemData={props.items[id]}
+                item={props.allItems[id]}
                 src="../../img/doughnut.jpeg"
               />
             ))
@@ -164,9 +183,13 @@ const CheckoutForm = (props) => {
       </div>
       <div>
         <Button
-          value={`pay $ ${props.cost ? props.cost : 0}`}
-          // onClick={handlePaymentIntent}
+          value={`pay $ ${props.cost ? props.cost : 0} `}
+          type={"submit"}
+          className={`${styles.submitBtn} ${
+            isProcessing ? "animateSubmutBtn" : null
+          }`}
           onClick={validateInput}
+          disabled={isProcessing}
         />
       </div>
       {props.loading ? <Loading /> : null}

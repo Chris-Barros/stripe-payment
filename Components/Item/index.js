@@ -1,7 +1,11 @@
 import React from "react";
 
 import store from "../../redux/store";
-import { removeItem, addItem, loading } from "../../redux/action/cart.js";
+import {
+  removeItemFromCart,
+  addItemToCart,
+  loading,
+} from "../../redux/action/cart.js";
 import Button from "../Button/";
 
 import styles from "./styles.module.css";
@@ -14,21 +18,19 @@ export default class Item extends React.Component {
   addOrRemove = (type) => {
     if (type === "add") {
       store.dispatch(loading());
-      store.dispatch(addItem(this.props.itemData));
+      store.dispatch(addItemToCart(this.props.item));
       store.dispatch(loading());
     } else {
       store.dispatch(loading());
-      store.dispatch(removeItem(this.props.itemData));
+      store.dispatch(removeItemFromCart(this.props.item));
       store.dispatch(loading());
     }
   };
   render() {
-    const { name, count, cost } = this.props.itemData;
-
+    const { name, count, cost } = this.props.item;
     return (
       <div>
         {name ? <div>{name}</div> : null}
-        {/*this.props.src ? <img src="./img/doughnut.jpeg" alt="" /> : null*/}
         {this.props.src ? (
           <div>
             <img className={styles.img} src="./svg/mysteryBox.svg" alt="m" />
@@ -36,9 +38,17 @@ export default class Item extends React.Component {
           </div>
         ) : null}
         <div className={styles.ButtonContainer}>
-          <Button value="-" onClick={() => this.addOrRemove("remove")} />
+          <Button
+            value="-"
+            onClick={() => this.addOrRemove("remove")}
+            disabled={this.props.loading}
+          />
           <div>{count}</div>
-          <Button value="+" onClick={() => this.addOrRemove("add")} />
+          <Button
+            value="+"
+            onClick={() => this.addOrRemove("add")}
+            disabled={this.props.loading}
+          />
         </div>
       </div>
     );
