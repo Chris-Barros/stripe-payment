@@ -2,10 +2,11 @@ import React from "react";
 
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { getCart } from "../../redux/action/cart";
+import { addItems, getCart } from "../../redux/action/cart";
 import store from "../../redux/store";
 import CheckoutForm from "../CheckoutForm/";
 import Modal from "../Modal/";
+import axios from "axios";
 
 import styles from "./styles.module.css";
 
@@ -26,12 +27,12 @@ export default class checkoutPage extends React.Component {
         Phone: "",
         Zip: "",
       },
-      itemData: {
-        id: 123,
-        name: "Mystery Box!!",
-        count: 1,
-        cost: 2.33,
-      },
+      // itemData: {
+      //   id: 123,
+      //   name: "Mystery Box!!",
+      //   count: 1,
+      //   cost: 2.33,
+      // },
 
       BillingFields: {
         Name: {
@@ -87,8 +88,12 @@ export default class checkoutPage extends React.Component {
     };
   }
   componentDidMount() {
-    console.log("public key", process.env.PUBLISHABLE_KEY);
-    store.dispatch(getCart());
+    axios.get("/api/get_items_list").then((data) => {
+      let allItems = {};
+      data.data.map((item) => (allItems[item.id] = item));
+
+      store.dispatch(addItems(allItems));
+    });
   }
   validateInput = (callback) => {
     let Errors = {};
@@ -130,7 +135,6 @@ export default class checkoutPage extends React.Component {
           <CheckoutForm
             BillingInfo={BillingInfo}
             BillingFields={BillingFields}
-            itemData={itemData}
             handleChange={this.handleChange}
             errors={Object.keys(errors).length !== 0 ? errors : false}
             validate={this.validateInput}
