@@ -4,15 +4,21 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.SECRET_KEY);
 
 const items = {
-  123: { cost: 2.33, name: "doughnut" },
+  1: { cost: 2.33, name: "mystery 1", id:1 },
+  2: { cost: 2.33, name: "mystery 2" ,id:2},
+  3: { cost: 2.33, name: "mystery 3" ,id:3},
+  4: { cost: 2.33, name: "mystery 4" ,id:4},
+  5: { cost: 2.33, name: "mystery 5" ,id:5},
 };
 let totalCost;
 export default async (req, res) => {
-  console.log("sk", process.env.SECRET_KEY);
+  console.log("request", req.body);
   totalCost = 0;
-  Object.keys(req.body).map((id) => {
+  Object.keys(req.body).map(([id]) => {
+    console.log("item id", req.body[id])
     if (items[id]) {
       totalCost += items[id].cost * req.body[id].count;
+      console.log("item exists", items[id])
     }
   });
 
@@ -27,6 +33,8 @@ export default async (req, res) => {
       // it gets sent to the server. A good approach is to send the quantity of
       // a uniquely identifiable product and calculate the total price server-side.
       // Then, you would only fulfill orders using the quantity you charged for.
+
+
       const paymentIntent = await stripe.paymentIntents.create({
         amount: totalCost,
         currency: "usd",

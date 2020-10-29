@@ -92,10 +92,13 @@ const CheckoutForm = (props) => {
       },
     };
     try {
+      console.log("after intent", props)
       const { data: clientSecret } = await axios.post(
         "/api/payment_intents",
-        props.items
+        props.cart
+        
       );
+      
 
       const cardElement = elements.getElement(CardElement);
 
@@ -156,7 +159,7 @@ const CheckoutForm = (props) => {
               <Item
                 key={id}
                 item={props.allItems[id]}
-                src="../../img/doughnut.jpeg"
+                src="./svg/mysteryBox.svg"
               />
             ))
           : null}
