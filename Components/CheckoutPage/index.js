@@ -27,12 +27,6 @@ export default class checkoutPage extends React.Component {
         Phone: "",
         Zip: "",
       },
-      // itemData: {
-      //   id: 123,
-      //   name: "Mystery Box!!",
-      //   count: 1,
-      //   cost: 2.33,
-      // },
 
       BillingFields: {
         Name: {

@@ -28,12 +28,13 @@ export default class Item extends React.Component {
   };
   render() {
     const { name, count, cost } = this.props.item;
+
     return (
-      <div>
+      <div className={styles.itemContainer}>
         {name ? <div>{name}</div> : null}
         {this.props.src ? (
           <div>
-            <img className={styles.img} src="./svg/mysteryBox.svg" alt="m" />
+            <img className={styles.img} src={this.props.src} alt="m" />
             <div>{`${cost}$`}</div>
           </div>
         ) : null}
