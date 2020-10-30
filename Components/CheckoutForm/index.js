@@ -20,7 +20,7 @@ import anime from "animejs/lib/anime.es/";
 
 import Button from "../Button";
 import store from "../../redux/store";
-import { getCart } from "../../redux/action/cart";
+
 
 const CardElementContainer = styled.div`
   height: 40px;
@@ -48,21 +48,30 @@ const cardElementOptions = {
 };
 
 const CheckoutForm = (props) => {
-  const btnAnimation = React.useRef(null);
+  
   const [isProcessing, setProcessingTo] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
 
-  React.useEffect(() => {
-    btnAnimation.current = anime({
-      targets: ".animateSubmutBtn",
-      duration: 1000,
-      translateX: 950,
+  //allows animation to run when webhook changes
+  // const btnAnimation = React.useRef(null);
+  // useEffect(() => {
+  //   btnAnimation.current = anime({
+  //     targets: ".animateSubmutBtn",
+  //     duration: 2000,
+  //     width:'250px',
+  //     scale:{
+  //       delay:800,
+  //       value:1.5
+  //     },
+  //     direction: 'alternate',
+  //     easing: "easeInOutSine",
+  //     loop: true,
+  //   });
 
-      easing: "easeInOutSine",
-      loop: false,
-    });
-  }, []);
+  //   console.log("isProcessing",isProcessing)
+
+  // }, [isProcessing]);
 
   const validateInput = () => {
     setProcessingTo(true);
@@ -73,11 +82,14 @@ const CheckoutForm = (props) => {
         console.log("initiating payment intent", status);
         handlePaymentIntent();
       } else {
-        setProcessingTo(false);
         store.dispatch(loading(false));
+        setProcessingTo(false);
         console.log("cant initiating payment intent", status);
       }
+      
     });
+   
+    
   };
   const handlePaymentIntent = async (ev) => {
     const billingDetails = {
@@ -120,6 +132,7 @@ const CheckoutForm = (props) => {
         .then(function (result) {
           if (result.error) {
             store.dispatch(loading(false));
+            setProcessingTo(false);
             console.log("payment intent secret was invalid");
             // PaymentIntent client secret was invalid
           } else {
@@ -131,6 +144,7 @@ const CheckoutForm = (props) => {
             } else if (
               result.paymentIntent.status === "requires_payment_method"
             ) {
+              setProcessingTo(false);
               store.dispatch(loading(false));
               console.log("payment method failed...");
               // Authentication failed, prompt the customer to enter another payment method
@@ -146,7 +160,7 @@ const CheckoutForm = (props) => {
       };
       props.openModal(values);
       store.dispatch(loading(false));
-      setProcessingTo(true);
+      // setProcessingTo(true);
     }
   };
 
@@ -188,9 +202,11 @@ const CheckoutForm = (props) => {
         <Button
           value={`pay $ ${props.cost ? props.cost : 0} `}
           type={"submit"}
-          className={`${styles.submitBtn} ${
-            isProcessing ? "animateSubmutBtn" : null
-          }`}
+          className={`${styles.submitBtn} `}
+          //tried adding an animation but coudnt get it to look just right.
+          // className={`${styles.submitBtn} ${
+          //   isProcessing ? "animateSubmutBtn" :null
+          // }`}
           onClick={validateInput}
           disabled={isProcessing}
         />
