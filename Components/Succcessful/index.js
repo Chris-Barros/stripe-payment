@@ -6,7 +6,10 @@ import { random } from "animejs";
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
+
+
 const Successful = (props) => {
+
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   useEffect(() => {
@@ -18,7 +21,7 @@ const Successful = (props) => {
   const length = 30;
 
   const animationRef = React.useRef(null);
-  React.useEffect(() => {
+  useEffect(() => {
     animationRef.current = anime({
       targets: ".animate",
       duration: 7000,
@@ -36,7 +39,7 @@ const Successful = (props) => {
       easing: "easeInOutSine",
     });
   }, []);
-  console.log("sucessfull props", props);
+
   return (
     <div className={styles.container}>
       <div className={styles.confetti}>
@@ -49,7 +52,7 @@ const Successful = (props) => {
             you've successfully made a purchase !
           </div>
           <div className={styles.text}>{`${
-            props.count ? props.count : 0
+            props.totalItems ? props.totalItems : 0
           } Mystery Box:  ${props.cost ? props.cost : 0}$`}</div>
         </div>
 
@@ -73,8 +76,5 @@ const Successful = (props) => {
     </div>
   );
 };
-const mapStateToProps = (state) => ({
-  ...state,
-});
 
-export default connect(mapStateToProps, null)(Successful);
+export default Successful

@@ -20,7 +20,6 @@ export const removeItemFromCart = (item) => {
 export const getCart = (item) => {
   return {
     type: "GET_CART",
-    payload: { Item: item },
   };
 };
 export const loading = (item) => {

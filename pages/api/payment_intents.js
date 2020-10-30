@@ -4,9 +4,9 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.SECRET_KEY);
 
 const items = {
-  1: { cost: 2.33, name: "mystery 1", id:1 },
-  2: { cost: 2.33, name: "mystery 2" ,id:2},
-  3: { cost: 2.33, name: "mystery 3" ,id:3},
+  1: { cost: 4.99, name: "mystery 1", id:1 },
+  2: { cost: 9.99, name: "mystery 2" ,id:2},
+  3: { cost: 19.99, name: "mystery 3" ,id:3},
   4: { cost: 2.33, name: "mystery 4" ,id:4},
   5: { cost: 2.33, name: "mystery 5" ,id:5},
 };

@@ -1,9 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 const items = [
-  { id: 1, name: "Mystery Box 1!!", count: 0, cost: 2.33 },
-  { id: 2, name: "Mystery Box 2!!", count: 0, cost: 2.33 },
-  { id: 3, name: "Mystery Box 3!!", count: 0, cost: 2.33 },
+  { id: 1, name: "Mystery Box 1!!", count: 0, cost: 4.99 },
+  { id: 2, name: "Mystery Box 2!!", count: 0, cost: 9.99 },
+  { id: 3, name: "Mystery Box 3!!", count: 0, cost: 19.99 },
   // { id: 4, name: "Mystery Box 4!!", count: 0, cost: 2.33 },
   // { id: 5, name: "Mystery Box 5!!", count: 0, cost: 2.33 },
   // { id: 6, name: "Mystery Box 6!!", count: 0, cost: 2.33 },
