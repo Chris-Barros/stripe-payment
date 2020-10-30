@@ -7,19 +7,24 @@
   background: rgba(78, 151, 219, 0.5);
   /* padding: 0px 0px 0px 20px; */
   padding-left: 20px;
-  margin: 20px;
+  margin: 20px auto;
 }
 .itemContainer {
   margin: auto;
-  width: 500px;
+  width: 800px;
   background: rgba(78, 151, 219, 0.5);
   display: flex;
+  overflow-x: auto;
 }
 .cardContainer {
   background: rgba(78, 151, 219, 0.5);
+  width: 500px;
+  margin: auto;
 }
 .submitBtn {
   width: 200px;
   height: 60px;
   background-color: whitesmoke;
+}
+.animateSubmutBtn {
 }

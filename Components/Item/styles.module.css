@@ -1,3 +1,6 @@
+.itemContainer {
+  margin: auto;
+}
 .ButtonContainer {
   display: flex;
   width: fit-content;
