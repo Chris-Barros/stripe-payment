@@ -19,6 +19,12 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
     you will need to create a stripe account if you havent. using the public and secret key go to
     access the `.env` file and change your keys accordingly stripe secret and stripes public.
 
-## if you wanna add more items to be displayed
+## Addding your selling products
 
-    it still needs some work but add the information inside of CheckoutPage's state in itemData object asign it an id. ideally you should gather this data on compoonentDidMount() make an api call and then structure that data as necessary and assign it to the state.
+    ideally you would want your products to be gathered from either a table or even stripes products, however for simplicity we will add them as a constant value in our api 'pages/api/get_items_list.js' here you can see all items that are being sold and you can add more. follow the structure it contains to avoid inconsistencys.
+
+## API PAYMENT_INTENT
+
+    currently the payment_intent-api is gathering the items from a const variable. for now when you add another item into the item-api also include it in the payment_intent-api const value. here is where the api is calculating the total price based on the items, eventually this data will be collected from a database/restfull api.
+
+    a reason why you wannat your payment_intent api to calculate the total amount is so that nothing can be maliciouslt changed in the front end. this way your back end api(payment_intent) will calculate that data based on how many items youve purchased.
